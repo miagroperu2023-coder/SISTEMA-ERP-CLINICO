@@ -127,8 +127,7 @@ $(document).on("click", ".edit-patient", async function (e) {
     let patientId = $(this).data("id");
 
     try {
-        const res = await fetch(
-            `/api/patient/show/search`,
+        const res = await fetch(`${window.location.origin}/api/patient/show/search`,
             {
                 method: "POST",
                 headers: {
@@ -252,7 +251,7 @@ async function buscarPaciente(event) {
     if (!valor) return;
 
     try {
-        const res = await fetch(`/api/patient/show`, {
+        const res = await fetch(`${window.location.origin}/api/patient/show`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -297,7 +296,7 @@ async function buscarEspecialidad(event) {
     console.log('Id de la especialidad:', event.target.value);
 
     try {
-        const res = await fetch(`/api/appointment/specialty`, {
+        const res = await fetch(`${window.location.origin}/api/appointment/specialty`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -367,7 +366,7 @@ async function calcularPrecio() {
     if (!service_id || !patient_id) {return;}
 
     try {
-        const res = await fetch(`/api/appointment/calculated`, {
+        const res = await fetch(`${window.location.origin}/api/appointment/calculated`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -515,8 +514,7 @@ $(document).on("click", ".delete-patient", async function (e) {
     }
 
     try {
-        const res = await fetch(
-            `/admissionist/patient/delete`, {
+        const res = await fetch(`${window.location.origin}/admissionist/patient/delete`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -570,8 +568,7 @@ async function cargarHorarios() {
     console.log('doctor id:', doctor_id);
 
     try {
-        const res = await fetch(
-            `/api/appointment/schedule/available-hours`, {
+        const res = await fetch(`${window.location.origin}/api/appointment/schedule/available-hours`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
