@@ -25,11 +25,26 @@ class DoctorScheduleController extends Controller
         // Horas ya ocupadas
         $ocupadas = Appointment::where('doctor_id', $request->doctor_id)
             ->whereDate('fecha_cita', $request->fecha_cita)
+            ->where('estado_cita', '!=', 'NO_ASISTIO')  // whereIn('estado_cita', ['NOP_ASISTIO','CANCELADO'])
             ->pluck('hora_cita');
 
         return response()->json([
             'horarios' => $horarios,
             'ocupadas' => $ocupadas
         ]);
+    }
+
+    public function search(Request $request)
+    {
+        $doctor_schedule = DoctorSchedule::find($request->id);
+
+        if (!$doctor_schedule) {
+            return response()->json(['message' => 'no encontrado'], 404);
+        } else {
+            return response()->json([
+                'message' => 'encontrado',
+                'doctor_schedule' => $doctor_schedule
+            ], 200);
+        }
     }
 }
