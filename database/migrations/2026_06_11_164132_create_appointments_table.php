@@ -22,13 +22,14 @@ return new class extends Migration
             $table->unsignedBigInteger('doctor_id');
             $table->unsignedBigInteger('service_id');
             $table->unsignedBigInteger('additional_rate_id');
-
+            $table->unsignedTinyInteger('duracion_cita')->nullable(); //DATO NUEVO
             $table->date('fecha_cita');
             $table->time('hora_cita');
             $table->text('motivo_consulta')->nullable();
             $table->decimal('precio_programado', 10, 2)->default(0);
             $table->decimal('total_pagado', 10, 2)->default(0);
             $table->decimal('saldo_pendiente', 10, 2)->default(0);
+            $table->string('metodo_pago')->nullable();
             $table->boolean('es_exonerado')->default(false);
             $table->string('autorizado_por')->nullable();
 
@@ -38,6 +39,7 @@ return new class extends Migration
                 'PAGADO'
             ])->default('PENDIENTE');
 
+            $table->string('numero_operacion')->nullable(); //SE MANEJARA CON DROZONE
             $table->enum('estado_cita', [
                 'PROGRAMADO',   //programado la cita en la bd
                 'CONFIRMADO',   //confirmo su cita 

@@ -7,7 +7,14 @@
     <!-- Custom Stylesheet -->
     <link href="{{ asset('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
 
-    <link href="{{ asset('assets/vendor/fullcalendar/css/main.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('assets/vendor/fullcalendar/css/main.min.css') }}" rel="stylesheet"> --}}
+
+    <!-- STYLESHEETS CALENDAR-->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@7.0.1/skeleton.css' rel='stylesheet' />
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@7.0.1/themes/monarch/theme.css' rel='stylesheet' />
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@7.0.1/themes/monarch/palettes/purple.css' rel='stylesheet' />
+
+    <link href="{{ asset('css/tesseract.css') }}" rel="stylesheet">
 @endsection
 
 
@@ -43,25 +50,34 @@
 
                 <!-- row -->
                 <div class="row">
-                    <div class="col-xl-12 col-xxl-12">
-                        <div
-                            class="mx-auto d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
-                            <h4 class="card-title">App\Calendario</h4>
+                    <div class="col-md-6">
+                        <label class="form-label text-primary">Especialidad <span class="text-danger">*</span></label>
+                        <select class="form-control" id="filtro-calendar_specialty_id">
+                            <option value="">Seleccione</option>
 
-                            <div id="external-events" class="">
-                                {{-- <a href="javascript:void(0);" class="btn btn-primary btn-rounded add-appointment"
-                                    data-bs-toggle="modal" data-bs-target="#appointmentModalCreate">+ Agregar
-                                    Cita</a>
-                                    --}}
-                            </div>
-                        </div>
+                            @foreach ($specialties as $specialty)
+                                <option value="{{ $specialty->id }}">
+                                    {{ $specialty->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        <span class="text-danger error-text specialty_id_error"></span>
                     </div>
 
+                    <div class="col-md-6">
+                        <label class="form-label text-primary">Médico <span class="text-danger">*</span></label>
+                        <select class="form-control" name="filtro-calendar_doctor_id" id="filtro-calendar_doctor_id">
+                            <option value="">Seleccione</option>
+                        </select>
+
+                        <span class="text-danger error-text doctor_id_error"></span>
+                    </div>
+
+
                     <div class="col-xl-12 col-xxl-12 mt-2">
-                        <div class="card">
-                            <div class="card-body">
-                                <div id="calendar" class="app-fullcalendar"></div>
-                            </div>
+                        <div class="calendar-container">
+                            <div id="calendar"></div>
                         </div>
                     </div>
                 </div>
@@ -69,7 +85,7 @@
                 <!-- row -->
                 <div class="row">
 
-                    <div class="col-12">
+                    <div class="col-12 mt-4">
                         <div class="card">
                             <div
                                 class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
@@ -101,7 +117,8 @@
                                                     <td>{{ $appointment->patient->nombre }}</td>
                                                     <td>{{ $appointment->doctor->nombre }}</td>
                                                     <td>{{ $appointment->service->nombre }}</td>
-                                                    <td>{{ $appointment->fecha_cita }} {{ $appointment->hora_cita }}</td>
+                                                    <td>{{ $appointment->fecha_cita }} {{ $appointment->hora_cita }}
+                                                    </td>
                                                     <td>
                                                         @switch($appointment->estado_pagado)
                                                             @case('PARCIAL')
@@ -160,8 +177,13 @@
             <script src="{{ asset('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
 
             <script src="{{ asset('assets/vendor/moment/moment.min.js') }}"></script>
-            <script src="{{ asset('assets/vendor/fullcalendar/js/main.min.js') }}"></script>
-            <script src="{{ asset('assets/js/plugins-init/fullcalendar-init.js') }}"></script>
+            {{-- <script src="{{ asset('assets/vendor/fullcalendar/js/main.min.js') }}"></script>
+            <script src="{{ asset('assets/js/plugins-init/fullcalendar-init.js') }}"></script> --}}
+
+            <!-- STANDARD JS -->
+            <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.1/all/global.js"></script>
+            <!-- THEME JS -->
+            <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.1/themes/monarch/global.js"></script>
 
             <!-- Datatable -->
             <script src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
@@ -169,8 +191,14 @@
             <script src="{{ asset('assets/js/custom.min.js') }}"></script>
             <script src="{{ asset('assets/js/deznav-init.js') }}"></script>
 
+            <!-- TESSERACT -->
+            <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
             <script src="{{ asset('js/admissionist/appointment/appointment.js') }}"></script>
             <script src="{{ asset('js/admissionist/schedule/schedule.js') }}"></script>
+            <script src="{{ asset('js/admissionist/tesseract/tesseract.js') }}"></script>
+            <script src="{{ asset('js/admissionist/calendario/calendario.js') }}"></script>
+            <script src="{{ asset('js/admissionist/filtro-calendario/filtro-calendario.js') }}"></script>
         @endsection
 
 
