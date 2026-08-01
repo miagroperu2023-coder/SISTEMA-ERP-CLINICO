@@ -7,8 +7,7 @@
     <!-- Custom Stylesheet -->
     <link href="{{ asset('assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
 
-    {{--
-<link href="{{ asset('assets/vendor/fullcalendar/css/main.min.css') }}" rel="stylesheet"> --}}
+    {{-- <link href="{{ asset('assets/vendor/fullcalendar/css/main.min.css') }}" rel="stylesheet"> --}}
 
     <!-- STYLESHEETS CALENDAR-->
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@7.0.1/skeleton.css' rel='stylesheet' />
@@ -93,8 +92,8 @@
                                 <h4 class="card-title">Lista de Citas</h4>
 
                                 {{-- <a href="javascript:void(0);" class="btn btn-primary btn-rounded add-appointment"
-                                data-bs-toggle="modal" data-bs-target="#appointmentModalCreate">+ Agregar Cita</a>
-                            --}}
+                                    data-bs-toggle="modal" data-bs-target="#appointmentModalCreate">+ Agregar Cita</a>
+                                    --}}
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -108,76 +107,46 @@
                                                 <th>Cita </th>
                                                 <th>Pago </th>
                                                 <th>Debe</th>
-                                                <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($appointments as $appointment)
-                                                @php
-                                                    $color = '';
-
-                                                    if ($appointment->estado_pagado === 'PARCIAL') {
-                                                        $color = '#D6D925';
-                                                    } elseif ($appointment->estado_pagado === 'PAGADO') {
-                                                        $color = '#CF0E0E';
-                                                    } elseif ($appointment->estado_pagado === 'PENDIENTE') {
-                                                        $color = '#F8D7DA';
-                                                    }
-                                                @endphp
-
-                                                <tr style="background-color: {{ $color }};">
-                                                    <td>
-                                                        <strong>{{ $appointment->numero_cita }}</strong>
-                                                    </td>
+                                                <tr>
+                                                    <td><strong>{{ $appointment->estado_cita }}</strong></td>
                                                     <td>{{ $appointment->patient->nombre }}</td>
                                                     <td>{{ $appointment->doctor->nombre }}</td>
-                                                    <td>{{ $appointment->service->nombre }} </td>
-                                                    <td>{{ $appointment->fecha_cita }}-{{ $appointment->hora_cita }}</td>
-
+                                                    <td>{{ $appointment->service->nombre }}</td>
+                                                    <td>{{ $appointment->fecha_cita }} {{ $appointment->hora_cita }}
+                                                    </td>
                                                     <td>
                                                         @switch($appointment->estado_pagado)
                                                             @case('PARCIAL')
-                                                                <span class="badge light badge-warning">
-                                                                    {{ $appointment->estado_pagado }}
-                                                                </span>
+                                                                <span
+                                                                    class="badge light badge-warning">{{ $appointment->estado_pagado }}</span>
                                                             @break
 
                                                             @case('PENDIENTE')
-                                                                <span class="badge light badge-danger">
-                                                                    {{ $appointment->estado_pagado }}
-                                                                </span>
-                                                            @break
-
-                                                            @case('PAGADO')
-                                                                <span class="badge light badge-success">
-                                                                    {{ $appointment->estado_pagado }}
-                                                                </span>
+                                                                <span
+                                                                    class="badge light badge-danger">{{ $appointment->estado_pagado }}</span>
                                                             @break
 
                                                             @default
-                                                                <span class="badge light badge-secondary">
-                                                                    {{ $appointment->estado_pagado }}
-                                                                </span>
+                                                                <span
+                                                                    class="badge light badge-success">{{ $appointment->estado_pagado }}</span>
                                                         @endswitch
                                                     </td>
-
-                                                    <td>S/ {{ number_format($appointment->saldo_pendiente, 2) }} </td>
-
+                                                    <td>{{ $appointment->saldo_pendiente }} </td>
                                                     <td>
                                                         <strong>
-                                                            {{-- Botón editar --}}
                                                             {{--
-                                                    <span class="me-3">
-                                                        <a href="#" class="edit-patient"
-                                                            data-id="{{ $appointment->id }}">
-
-                                                            <i class="fa fa-pencil fs-18 text-success"></i>
-                                                        </a>
-                                                    </span>
-                                                    --}}
-
-                                                            {{-- Botón eliminar --}}
+                                                            <span class="me-3">
+                                                                <a href="#" class="edit-patient"
+                                                                    data-id="{{ $appointment->id }}">
+                                                                    <i class="fa fa-pencil fs-18 text-success"></i>
+                                                                </a>
+                                                            </span>
+                                                            --}}
                                                             <span>
                                                                 <i class="fa fa-trash fs-18 text-danger"></i>
                                                             </span>
@@ -209,7 +178,7 @@
 
             <script src="{{ asset('assets/vendor/moment/moment.min.js') }}"></script>
             {{-- <script src="{{ asset('assets/vendor/fullcalendar/js/main.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins-init/fullcalendar-init.js') }}"></script> --}}
+            <script src="{{ asset('assets/js/plugins-init/fullcalendar-init.js') }}"></script> --}}
 
             <!-- STANDARD JS -->
             <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.1/all/global.js"></script>
