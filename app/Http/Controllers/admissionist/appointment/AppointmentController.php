@@ -30,37 +30,18 @@ class AppointmentController extends Controller
         $channels  = Channel::where('estado', 'ACTIVO')->get();
         $interaction_media  = InteractionMedium::where('estado', 'ACTIVO')->get();
         $additional_rates = AdditionalRate::where('estado', 'ACTIVO')->get();
+
         $inicioMesActual = Carbon::now()->startOfMonth()->toDateString();
-
-        $finMesSiguiente = Carbon::now()
-            ->addMonth()
-            ->endOfMonth()
-            ->toDateString();
-
+        $finMesSiguiente = Carbon::now()->addMonth()->endOfMonth()->toDateString();
         $appointments = Appointment::whereBetween('fecha_cita', [
             $inicioMesActual,
             $finMesSiguiente
         ])
-            ->whereNotIn('estado_cita', [
-                'NO_ASISTIO',
-                'CANCELADO'
-            ])
+            ->whereNotIn('estado_cita', ['NO_ASISTIO','CANCELADO'])
             ->orderBy('fecha_cita', 'asc')
             ->orderBy('hora_cita', 'asc')
             ->get();
 
-
-        dd(
-            $inicioMesActual,
-            $finMesSiguiente,
-            $appointments->map(function ($appointment) {
-                return [
-                    'id' => $appointment->id,
-                    'fecha' => $appointment->fecha_cita,
-                    'estado' => $appointment->estado_cita,
-                ];
-            })
-        );
 
         return view('admissionist.appointment.index', [
             'specialties' => $specialties,
