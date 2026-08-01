@@ -15,16 +15,11 @@ class ScheduleController extends Controller
     //LISTA DE LOS HORARIOS PARA EL CALENDARIO WEB
     public function list(Request $request)
     {
-        $inicioMesActual = Carbon::now()->startOfMonth()->toDateString();
-        $finMesSiguiente = Carbon::now()->addMonth()->endOfMonth()->toDateString();
-        $appointment = Appointment::whereBetween('fecha_cita', [
-            $inicioMesActual,
-            $finMesSiguiente
-        ])
-            ->whereNotIn('estado_cita', ['NO_ASISTIO', 'CANCELADO'])
-            ->orderBy('fecha_cita', 'asc')
-            ->orderBy('hora_cita', 'asc')
-            ->get();
+        $appointment = Appointment::with(['patient', 'doctor', 'service.specialty'])
+            ->whereBetween('fecha_cita', [
+                Carbon::now()->startOfMonth(),
+                Carbon::now()->addMonth()->endOfMonth()
+            ])->whereNotIn('estado_cita', ['NO_ASISTIO', 'CANCELADO']);
 
         //PARA FILTRAR POR ESPECIALIDAD
         if ($request->specialty_id) {
