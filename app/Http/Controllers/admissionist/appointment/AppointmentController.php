@@ -49,6 +49,19 @@ class AppointmentController extends Controller
             ->orderBy('hora_cita', 'asc')
             ->get();
 
+
+        dd(
+            $inicioMesActual,
+            $finMesSiguiente,
+            $appointments->map(function ($appointment) {
+                return [
+                    'id' => $appointment->id,
+                    'fecha' => $appointment->fecha_cita,
+                    'estado' => $appointment->estado_cita,
+                ];
+            })
+        );
+
         return view('admissionist.appointment.index', [
             'specialties' => $specialties,
             'channels' => $channels,
