@@ -138,17 +138,15 @@
                                                     </td>
                                                     <td>{{ $appointment->saldo_pendiente }} </td>
                                                     <td>
+
                                                         <strong>
-                                                            {{--
                                                             <span class="me-3">
-                                                                <a href="#" class="edit-patient"
-                                                                    data-id="{{ $appointment->id }}">
-                                                                    <i class="fa fa-pencil fs-18 text-success"></i>
-                                                                </a>
-                                                            </span>
-                                                            --}}
-                                                            <span>
-                                                                <i class="fa fa-trash fs-18 text-danger"></i>
+                                                                <a href="#" class="update-patient"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#appointmentModalState-{{ $appointment->id }}"><i
+                                                                        class="fa fa-pencil fs-18 text-success"></i></a>
+
+                                                                @include('admissionist.appointment.crud.update')
                                                             </span>
                                                         </strong>
                                                     </td>
@@ -196,9 +194,13 @@
 
             <script src="{{ asset('js/admissionist/appointment/appointment.js') }}"></script>
             <script src="{{ asset('js/admissionist/schedule/schedule.js') }}"></script>
-            <script src="{{ asset('js/admissionist/tesseract/tesseract.js') }}"></script>
-            <script src="{{ asset('js/admissionist/calendario/calendario.js') }}"></script>
+
             <script src="{{ asset('js/admissionist/filtro-calendario/filtro-calendario.js') }}"></script>
+            <script src="{{ asset('js/admissionist/calendario/calendario.js') }}"></script>
+
+            <script src="{{ asset('js/admissionist/appointment/editar-cita.js') }}"></script>
+
+            <script src="{{ asset('js/admissionist/tesseract/tesseract.js') }}"></script>
         @endsection
 
 

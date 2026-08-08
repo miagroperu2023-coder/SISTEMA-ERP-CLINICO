@@ -30,18 +30,10 @@ class AppointmentController extends Controller
         $channels  = Channel::where('estado', 'ACTIVO')->get();
         $interaction_media  = InteractionMedium::where('estado', 'ACTIVO')->get();
         $additional_rates = AdditionalRate::where('estado', 'ACTIVO')->get();
-
-        $inicioMesActual = Carbon::now()->startOfMonth()->toDateString();
-        $finMesSiguiente = Carbon::now()->addMonth()->endOfMonth()->toDateString();
         $appointments = Appointment::whereBetween('fecha_cita', [
-            $inicioMesActual,
-            $finMesSiguiente
-        ])
-            ->whereNotIn('estado_cita', ['NO_ASISTIO','CANCELADO'])
-            ->orderBy('fecha_cita', 'asc')
-            ->orderBy('hora_cita', 'asc')
-            ->get();
-
+            Carbon::now()->startOfMonth(),
+            Carbon::now()->addMonth()->endOfMonth()
+        ])->whereNotIn('estado_cita', ['NO_ASISTIO', 'CANCELADO'])->get();
 
         return view('admissionist.appointment.index', [
             'specialties' => $specialties,
@@ -52,6 +44,8 @@ class AppointmentController extends Controller
         ]);
     }
 
+
+    //PARA GUARDAR LA CITA
     public function store(Request $request)
     {
         //dd($request->all());
@@ -133,6 +127,7 @@ class AppointmentController extends Controller
             'duracion_cita' => $duracion_cita,
 
             'motivo_consulta' => $request->motivo_consulta ?? 'SIN MOTIVO',
+            'turno_cita' => 0,
 
             'precio_programado' => $request->precio_programado,
             'total_pagado' => $request->total_pagado,
@@ -166,6 +161,24 @@ class AppointmentController extends Controller
                 'code' => 0,
                 'msg' => 'Cita no creada'
             ]);
+        }
+    }
+
+
+    //PARA ACTUALIZAR LA CITA 
+    public function update(Request $request)
+    {
+        //dd($request->all());
+
+        $estadoCita = Appointment::find($request->appointment_id);
+        $exito = $estadoCita->update([
+            'estado_cita' => $request->estado_cita
+        ]);
+
+        if ($exito) {
+            return redirect()->back();
+        } else {
+            return redirect()->back();
         }
     }
 }
