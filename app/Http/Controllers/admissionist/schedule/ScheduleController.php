@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\DoctorSchedule;
+use App\Models\DoctorService;
+use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -15,20 +17,21 @@ class ScheduleController extends Controller
     //LISTA DE LOS HORARIOS PARA EL CALENDARIO WEB
     public function list(Request $request)
     {
+        //CITAS MES ACTUAL Y ANTERIOR
         $appointment = Appointment::with(['patient', 'doctor', 'service.specialty'])
             ->whereBetween('fecha_cita', [
                 Carbon::now()->startOfMonth(),
                 Carbon::now()->addMonth()->endOfMonth()
-            ])->whereNotIn('estado_cita', ['NO_ASISTIO', 'CANCELADO']);
+            ])->whereNotIn('estado_cita', ['NO_ASISTIO', 'CANCELADO', 'ATENDIDO', 'REEVALUACION']);
 
-        //PARA FILTRAR POR ESPECIALIDAD
+        //PARA FILTRAR CITAS POR ESPECIALIDAD
         if ($request->specialty_id) {
             $appointment->whereHas('service', function ($query) use ($request) {
                 $query->where('specialty_id', $request->specialty_id);
             });
         }
 
-        //FILTRO POR MEDICO
+        //PARA FILTRAR CITAS POR MEDICO
         if ($request->doctor_id) {
             $appointment->where('doctor_id', $request->doctor_id);
         }
@@ -36,49 +39,23 @@ class ScheduleController extends Controller
         $appointment = $appointment->get();
 
         $events = $appointment->map(function ($schedule) {
+            // Optimización de colores usando una matriz (Array Key) en lugar de un Switch pesado
+            $colors = [
+                1 => '#dc3545',
+                2 => '#0d6efd',
+                3 => '#ffc107',
+                4 => '#021209',
+                5 => '#ce14cb',
+                6 => '#118da6',
+                7 => '#110569',
+                8 => '#ffc107',
+            ];
 
-            switch ($schedule->service_id) {
-
-                case 1:
-                    $color = '#dc3545';
-                    break;
-
-                case 2:
-                    $color = '#0d6efd';
-                    break;
-
-                case 3:
-                    $color = '#ffc107';
-                    break;
-
-                case 4:
-                    $color = '#021209';
-                    break;
-
-                case 5:
-                    $color = '#ce14cb';
-                    break;
-
-                case 6:
-                    $color = '#118da6';
-                    break;
-
-                case 7:
-                    $color = '#110569';
-                    break;
-
-                case 8:
-                    $color = '#ffc107';
-                    break;
-
-                default:
-                    $color = '#198754';
-                    break;
-            }
+            $color = $colors[$schedule->service->specialty->id] ?? '#198754';
 
             return [
                 'id' => $schedule->id,
-                'title' => $schedule->patient->nombre,
+                'title' => $schedule->patient->nombre . ' - ' . $schedule->service->nombre, // Un título más descriptivo para el calendario
                 'start' => $schedule->fecha_cita . 'T' . $schedule->hora_cita,
                 'end' => $schedule->fecha_cita . 'T' . $schedule->hora_cita,
                 'color' => $color,
@@ -110,7 +87,7 @@ class ScheduleController extends Controller
     }
 
 
-    //PARA ACTUALIZAR LA AGENDA O CITA SELECCIONADA EN EL CALENDAR
+    //PARA ACTUALIZAR LA AGENDA O CITA SELECCIONADA DEL CINTILLO DEL CALENDAR
     public function update(Request $request)
     {
         //dd($request->all());
@@ -140,9 +117,12 @@ class ScheduleController extends Controller
             ]);
         }
 
+        $doctorService = DoctorService::find($request->service_id_edit); //service_id_edit: es el Id de la tabla DoctorServices
+        $service = Service::find($doctorService->service_id); //buscamos el servicio por id
+        //dd($service);
         $exito = $schedule->update([
             'doctor_id' => $request->doctor_id_edit,
-            'service_id' => $request->service_id_edit,
+            'service_id' => $service->id,
             'fecha_cita' => $request->fecha_cita_edit,
             'hora_cita' => $request->hora_cita_edit,
             'estado_cita' => $request->estado_cita,

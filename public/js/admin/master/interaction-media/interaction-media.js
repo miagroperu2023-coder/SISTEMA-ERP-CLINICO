@@ -25,9 +25,7 @@ $("#formCreateInteractionMedia").on("submit", function (e) {
         success: function (response) {
             if (response.code == 0) {
                 $.each(response.error, function (prefix, val) {
-                    $(form)
-                        .find("span." + prefix + "_error")
-                        .text(val[0]);
+                    $(form).find("span." + prefix + "_error").text(val[0]);
                     console.log("span." + prefix + "_error");
                     console.log(val[0]);
                 });
@@ -177,16 +175,16 @@ $(document).on("click", ".delete-interaction-media", async function (e) {
     try {
         const res = await fetch(
             `${window.location.origin}/master/admin/interaction-media/delete`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: interactionMediumId,
-                }),
-            }
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                id: interactionMediumId,
+            }),
+        }
         );
 
         const data = await res.json();

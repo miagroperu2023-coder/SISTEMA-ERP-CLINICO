@@ -60,9 +60,6 @@
                                                 <th>Codigo</th>
                                                 <th>Especialidad</th>
                                                 <th>Nombre</th>
-                                                <th>Precio Estándar</th>
-                                                <th>Reconsulta</th>
-                                                <th>Días permitidos</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -72,9 +69,6 @@
                                                     <td><strong>{{ $service->id }}</strong></td>
                                                     <td><strong>{{ $service->specialty->nombre }}</strong> </td>
                                                     <td>{{ $service->nombre}}</td>
-                                                    <td>{{ $service->precio_primera_consulta }}</td>
-                                                    <td>{{ $service->precio_reconsulta}}</td>
-                                                    <td><span class="badge light badge-success">{{ $service->dias_reconsulta}}</span></td>
                                                     <td>
                                                         <strong>
                                                             <span class="me-3">

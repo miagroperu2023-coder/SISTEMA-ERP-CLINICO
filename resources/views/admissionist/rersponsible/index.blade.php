@@ -46,10 +46,13 @@
                         <div class="card">
                             <div
                                 class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
-                                <h4 class="card-title">Lista de Responsables</h4>
+                                <h4 class="card-title">Responsables</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
+                                    {{-- CAMPOS DE ROL DEL USUARIO PARA PODER REDIRECCIONAR --}}
+                                    <input type="hidden" name="rol_user_redirection" id="rol_user_redirection"
+                                        value="{{ auth()->user()->roleUser() }}">
                                     <table id="example4" class="display" style="min-width: 845px">
                                         <thead>
                                             <tr>

@@ -35,7 +35,8 @@ Route::post('/patient/show/search', [PatientController::class, 'search'])->name(
 Route::get('/patient/reniec-api/search', [PatientController::class , 'prueba'])->name('api');
 
 
-Route::post('/appointment/specialty', [AppointmentController::class, 'specialty'])->name('api.appointment.specialty');
+Route::post('/appointment/doctor/specialty', [AppointmentController::class, 'doctorBySpecialty'])->name('api.appointment.doctor.specialty');
+Route::post('/appointment/service/doctor', [AppointmentController::class, 'serviceBydoctor'])->name('api.appointment.service.doctor');
 Route::post('/appointment/calculated', [AppointmentController::class , 'calculatedPrice'])->name('api.appointment.calculated');
 
 Route::post('/appointment/schedule/available-hours', [DoctorScheduleController::class , 'availableHours'])->name('api.appointment.schedule');
@@ -54,7 +55,7 @@ Route::post('/admin/additonal-rate/search', [AdditionalRateController::class , '
 
 Route::post('/admin/doctor/search', [DoctorController::class , 'search'])->name('api.admin.doctor.search');
 
-Route::post('/admin/service/search', [ServiceController::class , 'search'])->name('api.admin.doctor.search');
+Route::post('/admin/service/search', [ServiceController::class , 'search'])->name('api.admin.service.search');
 
 Route::post('/admin/responsible/search', [responsibleController::class , 'search'])->name('api.admin.responsible.search');
 

@@ -6,7 +6,7 @@
 
             <!-- HEADER -->
             <div class="modal-header bg-dark">
-                <h5 class="modal-title text-white" id="appointmentModalEditLabel">Actualizar la Cita</h5>
+                <h5 class="modal-title text-white" id="appointmentModalEditLabel">Reprogramación de la Cita</h5>
 
                 <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close">
                 </button>
@@ -106,7 +106,7 @@
                             <label class="form-label text-primary">Estado de la Cita <span
                                     class="text-danger">*</span></label>
                             <select class="form-control" name="estado_cita" id="estado_cita">
-                                <option value="PROGRAMADO">PROGRAMADO</option>
+                              {{--  <option value="PROGRAMADO">PROGRAMADO</option> --}}
                                 <option value="CONFIRMADO">CONFIRMADO</option>
                                 <option value="CONFIRMADO">PACIENTE_LLEGO</option>
                                 <option value="EN_ESPERA">EN ESPERA</option>

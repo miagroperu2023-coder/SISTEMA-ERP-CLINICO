@@ -21,6 +21,7 @@
                         <li><a href='{{ route('master.specialty.index') }}'>Especialidades</a></li>
                         <li><a href="{{ route('master.service.index') }}">Servicios</a></li>
                         <li><a href='{{ route('master.doctor.index') }}'>Doctores</a></li>
+                        <li><a href='{{ route('master.service.doctor.index') }}'>Doctor/Servicio</a></li>
                         <li><a href="{{ route('master.additionalRate.index') }}">Tarifas</a></li>
                         <li><a href="{{ route('master.interactionMedia.index') }}">Medios</a></li>
                         <li><a href='{{ route('master.channel.index') }}'>Canales</a></li>
@@ -47,6 +48,7 @@
                     </ul>
                 </li>
             @endif
+            {{-- ENLACES ADM --}}
 
 
 
@@ -89,16 +91,55 @@
                         <span class="nav-text">Horarios</span>
                     </a>
                     <ul aria-expanded="false">
-                        <li><a href="{{ route('admissionit.doctor.schedule.index') }}">Horarios</a></li>
+                        <li><a href="{{ route('admissionit.doctor.schedule.index') }}">Horarios médicos</a></li>
                     </ul>
                 </li>
             @endif
+            {{-- ENLACES ADMISION --}}
 
-            {{-- ENLACERS CAJA --}}
+
+            {{-- ENLACES RECEPCION --}}
+            @if (auth()->user()->getRoleNames()->contains('RECEPCION'))
+                <li>
+                    <a href="javascript:void(0);" class="ai-icon has-arrow" aria-expanded="false">
+                        <i class="flaticon-381-user-7"></i>
+                        <span class="nav-text">Pacientes</span>
+                    </a>
+                    <ul aria-expanded="false">
+                        <li><a href="{{ route('receptionist.patient.index') }}">Pacientes</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                        <i class="flaticon-381-calendar"></i>
+                        <span class="nav-text">Citas</span>
+                    </a>
+                    <ul aria-expanded="false">
+                        <li><a href="{{ route('receptionist.appointment.index') }}">Registrar Cita</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                        <i class="flaticon-381-clock"></i>
+                        <span class="nav-text">Horarios</span>
+                    </a>
+                    <ul aria-expanded="false">
+                        <li><a href="{{ route('receptionist.doctor.schedule.index') }}">Horarios médicos</a></li>
+                    </ul>
+                </li>
+            @endif
+            {{-- ENLACES RECEPCION --}}
+
+
+
+
+            {{-- ENLACES CAJA --}}
 
             {{-- ENLACES FACTURACION --}}
 
-            {{-- ENLACES RECEPCION --}}
+
 
             {{-- ENLACES GERENCIA --}}
 

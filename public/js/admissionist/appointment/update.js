@@ -1,6 +1,7 @@
-$(document).on("click", ".update-appointment", async function (e) {
+$(document).on("click", ".update-appointment", function (e) {
     e.preventDefault();
 
+    //ABRIMOS EL MODAL DE EDITAR LA AGENDA Y ASIGNAMOS EL ID
     $("#appointmentModalState").modal("show");
     let appointmentId = $(this).data("id");
     let estado_cita = $('#appointmentModalState #appointment_id').val(appointmentId);
@@ -8,7 +9,7 @@ $(document).on("click", ".update-appointment", async function (e) {
 });
 
 
-//PARA ACTUALIZAR LOS DATOS DEL PACIENTE
+//PARA ACTUALIZAR EL ESTADO DE LA CITA
 $("#formUpdateAppointmentState").on("submit", function (e) {
     e.preventDefault();
 
