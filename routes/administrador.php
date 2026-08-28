@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\admin\appointment\AppointmentController;
+use App\Http\Controllers\admin\availableSchedule\AvailableSchedule;
 use App\Http\Controllers\admin\master\additionalRate\AdditionalRateController;
 use App\Http\Controllers\admin\master\channel\ChannelController;
 use App\Http\Controllers\admin\master\doctor\DoctorController;
@@ -9,6 +11,9 @@ use App\Http\Controllers\admin\master\role\RoleController;
 use App\Http\Controllers\admin\master\service\ServiceController;
 use App\Http\Controllers\admin\master\specialty\SpecialtyController;
 use App\Http\Controllers\admin\master\user\UserController;
+use App\Http\Controllers\admin\patient\PatientController;
+use App\Http\Controllers\admin\responsible\ResponsibleController;
+use App\Http\Controllers\admin\schedule\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -77,3 +82,13 @@ Route::post('/admin/user/store', [UserController::class, 'store'])->name('admin.
 Route::put('/admin/user/update/user/list', [UserController::class, 'updateUser'])->name('admin.user.update.list');
 Route::get('/admin/user/edit/{user}', [UserController::class, 'edit'])->name('admin.user.edit');
 Route::put('/admin/user/update/{user}', [UserController::class, 'update'])->name('admin.user.update');
+
+
+Route::get('/admin/appointment', [AppointmentController::class, 'index'])->name('admin.appointment.index');
+Route::get('/admin/patient', [PatientController::class , 'index'])->name('admin.patient.index');
+
+Route::get('/admin/doctor-schedule', [ScheduleController::class, 'index'])->name('admin.doctor.schedule.index');
+
+Route::get('/admin/responsible', [ResponsibleController::class, 'index'])->name('admin.responsible.index');
+
+Route::get('/admin/available-schedule', [AvailableSchedule::class, 'index'])->name('admin.available.schedule.index');

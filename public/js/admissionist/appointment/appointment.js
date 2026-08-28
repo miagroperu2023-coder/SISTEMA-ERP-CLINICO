@@ -280,7 +280,7 @@ $('#formCreateAppointment').on('submit', function (e) {
         },
 
         success: function (response) {
-            let role = document.querySelector('.table-responsive #rol_user_redirection').value; //VARIABLE ROL DEL USUARIO PARA REDIRECCION
+            let role = document.querySelector('#appointmentModalCreate #rol_user_redirection').value; //VARIABLE ROL DEL USUARIO PARA REDIRECCION
             console.log('CITA CREADA:', response);
 
             if (response.code == 0) {
@@ -301,6 +301,8 @@ $('#formCreateAppointment').on('submit', function (e) {
                         window.location.href = "/admissionist/appointment";
                     } else if (role == 'RECEPCION') {
                         window.location.href = "/receptionist/appointment";
+                    } else if(role == 'ADMINISTRADOR') {
+                        window.location.href = "/admin/appointment";
                     }
                 });
 
@@ -370,14 +372,8 @@ function generarHorariosCita(horarios, ocupadas, cita_doble) {
 
         while (actual < final) {
             let hora = convertirHoraCita(actual);
-            // BUSCAR SI ESTA HORA YA ESTÁ OCUPADA
-            let horaOcupada = ocupadas.some(cita =>
-                cita.hora_cita.substring(0, 5) === hora
-            );
-            console.log('hora:', hora + '¿ocupada?' + horaOcupada);
 
-            // CITA NORMAL
-            if (!cita_doble) {
+            if (!cita_doble) { // CITA NORMAL
                 let hayCruce = existeCruceCita(hora, duracion, ocupadas);
                 if (!hayCruce) {
                     const opcion = document.createElement('option');
@@ -385,9 +381,7 @@ function generarHorariosCita(horarios, ocupadas, cita_doble) {
                     opcion.textContent = hora;
                     select.appendChild(opcion);
                 }
-            }
-            // CITA DOBLE
-            else {
+            } else { // CITA DOBLE
                 let duracionDoble = duracion * 2;
                 let siguienteMinuto = actual + duracionDoble;
                 // NO SALIR DEL HORARIO DEL MEDICO
