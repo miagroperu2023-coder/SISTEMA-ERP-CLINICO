@@ -11,19 +11,50 @@ class MessageController extends Controller
     //
     public function enviarSms()
     {
-        // Nueva URL global de Textbee (No requiere ID en la ruta)
-        //env('TEXTBEE_API_KEY')
+        //HTTPSMS
         $response = Http::withHeaders([
-            'x-api-key' => 'txb_nL3ee9awVFWvTHrtQVjJHc1tLL2WTH8j',
-        ])->post('https://api.textbee.dev/api/v1/gateway/send-sms', [
+            'x-api-key' => config('httpsms.httpsms.key'),
+            'Accept' => 'application/json',
+        ])->post(config('httpsms.httpsms.url'), [
+            'content' => 'Hola, su cita en CEO SALUD ha sido confirmada.',
+            'from' => config('httpsms.httpsms.from'),
+            'to' => '+51924080517',
+        ]);
+
+        dd([
+            'status' => $response->status(),
+            'body' => $response->json(),
+        ]);
+
+
+
+
+
+        /*$response = Http::withHeaders([
+            'x-api-key' => config('textbee.textbee.key'),
+        ])->post(env('textbee.textbee.url'), [
             'recipients' => ['+51924080517'],
-            'message' => 'Enviado automáticamente con la API moderna de Textbee.',
+            'message' => 'Enviado automáticamente desde CEO SALUD.',
+            'deviceId' => config('textbee.textbee.device_id'),
         ]);
 
         if ($response->successful()) {
-            return "Mensaje enviado exitosamente.";
+            $data = $response->json();
+
+            if ($data['data']['success'] ?? false) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Mensaje enviado a la cola correctamente.',
+                    'batch_id' => $data['data']['smsBatchId'],
+                ]);
+            }
         }
 
-        return "Error: " . $response->body();
+        return response()->json([
+            'success' => false,
+            'message' => 'Error al enviar SMS.',
+            'error' => $response->json(),
+        ], $response->status()); */
+
     }
 }
